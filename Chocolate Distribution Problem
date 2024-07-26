@@ -1,0 +1,15 @@
+class Solution{
+public:
+long long findMinDiff(vector<long long> a, long long n, long long m){
+sort(a.begin(),a. end());
+long long i=0;
+long long j=m-1;
+long long minD=LLONG_MAX;
+while(j<n){
+minD=min(minD,a[jl-a[i]);
+i++;
+j++;
+}
+return minD;
+｝
+};
