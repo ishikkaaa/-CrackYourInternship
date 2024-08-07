@@ -1,0 +1,68 @@
+class Solution {
+public:
+    int priority(char c) {
+        if (c == '/' || c == '*') return 3;
+        else if (c == '+' || c == '-') return 2;
+        else return 1;
+    }
+
+    int applyOperation(int a, int b, char op) {
+        switch (op) {
+            case '/': return b / a;
+            case '*': return b * a;
+            case '+': return b + a;
+            case '-': return b - a;
+        }
+        return 0;
+    }
+
+    int calculate(string s) {
+        int n = s.length();
+        if (n == 1) return (s[0] - '0');
+        
+        stack<int> st;
+        stack<char> ops;
+        int i = 0;
+        
+        while (i < n) {
+            if (isspace(s[i])) {
+                i++;
+                continue;
+            }
+
+            if (isdigit(s[i])) {
+                int num = 0;
+                while (i < n && isdigit(s[i])) {
+                    num = num * 10 + (s[i] - '0');
+                    i++;
+                }
+                st.push(num);
+                i--;  
+            } else {
+                while (!ops.empty() && priority(ops.top()) >= priority(s[i])) {
+                    int a = st.top();
+                    st.pop();
+                    int b = st.top();
+                    st.pop();
+                    char op = ops.top();
+                    ops.pop();
+                    st.push(applyOperation(a, b, op));
+                }
+                ops.push(s[i]);
+            }
+            i++;
+        }
+        
+        while (!ops.empty()) {
+            int a = st.top();
+            st.pop();
+            int b = st.top();
+            st.pop();
+            char op = ops.top();
+            ops.pop();
+            st.push(applyOperation(a, b, op));
+        }
+        
+        return st.top();
+    }
+};
