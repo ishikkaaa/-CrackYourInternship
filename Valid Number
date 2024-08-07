@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool isNumber(string s) {
+        int n=s.length();
+        bool isNum=false;
+        bool hasDot=false;
+        bool hasE=false;
+        int i=0;
+        while(i<n && isspace(s[i])) i++;
+        if (i < n && (s[i] == '+' || s[i] == '-')) i++;
+        while(i<n){
+            if(isdigit(s[i])) isNum=true;
+            else if(s[i]=='.'){
+                if(hasE || hasDot) return false;
+                hasDot=true;
+            }
+            else if(s[i]=='e' || s[i]=='E'){
+                if(!isNum || hasE) return false;
+                hasE=true;
+                isNum=false;
+                if (i + 1 < n && (s[i + 1] == '+' || s[i + 1] == '-')) i++;
+            }
+            else{
+                break;
+            }
+            i++;
+        }
+        while (i < n && isspace(s[i])) i++;
+        return isNum && i == n;
+    }
+};
