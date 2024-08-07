@@ -1,0 +1,16 @@
+class Solution {
+public:
+    void generate(vector<string>&ans,string s,int o,int c,int n){
+        if(c==n){
+            ans.push_back(s);
+            return;
+        }
+        if(o<n) generate(ans,s+'(',o+1,c,n);
+        if(c<o) generate(ans,s+')',o,c+1,n);
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string>ans;
+        generate(ans,"",0,0,n);
+        return ans;
+    }
+};
