@@ -1,0 +1,70 @@
+#include<iostream>
+#include<string>
+#include<unordered_map>
+#include<cmath>
+using namespace std;
+
+int main(){
+    string s = "abcabeabd";
+    string pattern = "abd";
+    int n = s.size();
+    int m = pattern.size();
+
+    if (m > n) {
+        cout << "false" << endl;
+        return 0;
+    }
+
+    unordered_map<char, int> v;
+    char a = 'a';
+    int b = 26;
+    int c = 1;
+
+    while (b--) {
+        v[a] = c;
+        a = a + 1;
+        c++;
+    }
+
+    int hashcode = 0;
+    int k = m - 1;
+    for (int i = 0; i < m; ++i) {
+        hashcode += v[pattern[i]] * pow(10, k);
+        k--;
+    }
+    k = m - 1;
+    int code = 0;
+    for (int i = 0; i < m; ++i) {
+        code += v[s[i]] * pow(10, k);
+        k--;
+    }
+    bool flag = false;
+    int i = 0;
+    int j = m;
+
+    if (code == hashcode) {
+        flag = true;
+    } else {
+        while (j < n) {
+            code -= v[s[i]] * pow(10, m - 1);
+            code *= 10;
+            code += v[s[j]];
+
+            i++;
+            j++;
+
+            if (code == hashcode) {
+                flag = true;
+                break;
+            }
+        }
+    }
+
+    if (flag) {
+        cout << "true" << endl;
+    } else {
+        cout << "false" << endl;
+    }
+
+    return 0;
+}
