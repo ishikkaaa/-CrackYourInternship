@@ -1,0 +1,36 @@
+// User function template in C++
+
+class Solution {
+  public:
+    // Function to find minimum number of pages.
+    bool isValid(int v[],long long mid,int m,int n){
+        int students=0;
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=v[i];
+            if(sum>mid){
+                students++;
+                sum=v[i];
+            }
+        }
+        return students>=m;
+    }
+    long long findPages(int n, int arr[], int m) {
+        // code here
+        if(m>n) return -1;
+        int total=0;
+        int maxi=INT_MIN;
+        for(int i=0;i<n;i++){
+            total+=arr[i];
+            maxi=max(arr[i],maxi);
+        }
+        int low=maxi;
+        int high=total;
+        while(low<=high){
+            long long mid=low+ (high-low)/2;
+            if(isValid(arr,mid,m,n)) low=mid+1;
+            else high=mid-1;
+        }
+        return low;
+    }
+};
